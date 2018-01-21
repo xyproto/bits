@@ -30,5 +30,5 @@ func main() {
 	}
 
 	// Output info
-	fmt.Printf("Reversed xor in %d iterations (instead of %d) and found %s given %s\n", iterations, len(*xor), foundInput.String(), from.String())
+	fmt.Printf("Reversed xor in %d iterations (instead of %d) and found %s given %s\n", iterations, len(*xor), foundInput, from)
 }
