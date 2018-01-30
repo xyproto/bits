@@ -2,6 +2,7 @@ package bits
 
 import (
 	"bytes"
+	"errors"
 	"strings"
 )
 
@@ -55,6 +56,32 @@ func (b *Bits) Equal(x *Bits) bool {
 	return true
 }
 
+// StringToBits converts a space-separated string of "0"s and "1"s to a pointer
+// to a slice of bits.Bit. Returns an error if an invalid string is given.
+func StringToBits(s string) (*Bits, error) {
+	var gatheredBits Bits
+	if strings.Contains(s, " ") {
+		for _, sbit := range strings.Split(s, " ") {
+			if sbit == "1" {
+				gatheredBits = append(gatheredBits, B1)
+			} else if sbit == "0" {
+				gatheredBits = append(gatheredBits, B0)
+			} else {
+				return nil, errors.New("Invalid bit: " + sbit)
+			}
+		}
+	} else {
+		if s == "1" {
+			gatheredBits = append(gatheredBits, B1)
+		} else if s == "0" {
+			gatheredBits = append(gatheredBits, B0)
+		} else {
+			return nil, errors.New("Invalid bit: " + s)
+		}
+	}
+	return &gatheredBits, nil
+}
+
 // Takes a string like this: "0 0 | 0 1 | 1 0 | 1 1" and returns the four elements (separated by "|") as *Choices (slice of Bits)
 func NewChoices(s string) *Choices {
 	if strings.Contains(s, "->") {
@@ -65,17 +92,12 @@ func NewChoices(s string) *Choices {
 		if !strings.Contains(element, " ") {
 			continue
 		}
-		digits := strings.Split(strings.TrimSpace(element), " ")
-		var b Bits
-		for _, digit := range digits {
-			if digit == "1" || digit == "0" {
-				b = append(b, NewBit(digit))
-			} else {
-				panic("Invalid choice string: " + s)
-			}
+		b, err := StringToBits(strings.TrimSpace(element))
+		if err != nil {
+			panic("Invalid choice string: " + s)
 		}
-		if len(b) > 0 {
-			c = append(c, b)
+		if len(*b) > 0 {
+			c = append(c, *b)
 		}
 	}
 	return &c

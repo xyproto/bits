@@ -12,21 +12,11 @@ var and = &TruthTable{
 	"1 1 -> 1",
 }
 
-var andInverted = &ProbTable{
-	"0 -> 0 0 | 0 1 | 1 0",
-	"1 -> 1 1",
-}
-
 var or = &TruthTable{
 	"0 0 -> 0",
 	"0 1 -> 1",
 	"1 0 -> 1",
 	"1 1 -> 1",
-}
-
-var orInverted = &ProbTable{
-	"0 -> 0 0",
-	"1 -> 0 1 | 1 0 | 1 1",
 }
 
 var xor = &TruthTable{

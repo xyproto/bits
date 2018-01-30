@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"math"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -13,13 +12,6 @@ type TruthTable []string
 type ProbTable []string
 
 type ValidatorFunc func(*Bits) bool
-
-// sort the words in a given string and return a new string
-func sSort(s string) string {
-	l := strings.Split(s, " ")
-	sort.Strings(l)
-	return strings.Join(l, " ")
-}
 
 // Make it possible to run a truth table in reverse,
 // by returning a table with probabilities
